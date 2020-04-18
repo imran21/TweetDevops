@@ -1,0 +1,29 @@
+
+
+network_log.log
+
+network_log.log > 9997 > network_log
+user_geowalk.log > 9997 >user_geowalk
+venue_log.log > 9997 >venue_log
+public_stream.log  > 9997 >pub_twt
+user_profile_1.log > 9997 >user_prof
+
+mongodb 192.168.1.2 :27017
+profile_engine 192.168.1.3 :2020 vm2
+user_geowalk 192.168.1.4 :2021
+venue_search 192.168.1.5 :2022
+
+tweet_stream 192.168.1.6 :80
+--------------------------------------
+docker network create devops_nm1 --driver bridge --subnet 192.168.1.0/29 --gateway 192.168.1.1
+
+docker run -ti --name tweet_stream --network devops_nm1 --ip 192.168.1.6 -p 80:80 njs:v1 node v2_tweet_stream.js
+docker run -ti --name profile_eng --network devops_nm1 --ip 192.168.1.3 -p 2020:2020 njs:v1 node v2_profile_engine.js
+docker run -ti --name geowalk_profile --network devops_nm1 --ip 192.168.1.4 -p 2021:2021 njs:v1 node v2_user_geowalk_profile.js
+docker run -ti --name venue_search --network devops_nm1 --ip 192.168.1.5 -p 2022:2022 njs:v1 node v2_fq_venu_search.js
+docker run -ti --name db --network devops_nm1 --ip 192.168.1.2 -p 27017:27017 mongo:latest mongod --bind_ip_all
+
+
+docker run -ti --name tweet_stream --network devops_nm1 -v /node_files:/node_files_c --ip 192.168.1.6 -p 80:80 ab5fb0e19ab4  /bin/bash
+ 
+ 
