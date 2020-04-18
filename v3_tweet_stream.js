@@ -7,10 +7,10 @@ var request=require('request');
 var http = require('http');
 var fs=require('fs');
 var T = new Twit({
-    consumer_key:"IJAv6ve6vlz5c1HjFWog4CLJN"
-  , consumer_secret:"ZxcnNgP9mptHoCkBOUFVd601WsmwcVI7wLa2oaFLGeagPcSX3Q"
-  , access_token:"276540042-I7dM1NF7XnD8GUDNGDaJtnUErxODM6WBXxFHpo6V"
-  , access_token_secret:"IKhlysJxKlRqkZcMRi4HDSsaIsnWxS4XsoizpCimSrkAA"
+    consumer_key:"IJAv6ve6vlz5c1HjFg4CLJN"
+  , consumer_secret:"ZxcnNgP9mptHoCkBOUFVd601WsmwcVI7wLa2FLGeagPcSX3Q"
+  , access_token:"276540042-I7dM1NF7XnD8GUDNGDaJtnUErxODMBXxFHpo6V"
+  , access_token_secret:"IKhlysJxKlRqkZcMRi4HDSsaIsnWxS4XsoizpmSrkAA"
 });
 /*
 var db = mongoose.connect('mongodb://localhost:27017/world_public_stream_2',{ useNewUrlParser: true }, function(err) {
