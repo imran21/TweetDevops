@@ -49,11 +49,16 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
             secret = data.SecretString;
             parse_secret = JSON.parse(secret)
             console.log(parse_secret.consumer_key)
-
+            var consumer_key="consumer_key='"+parse_secret.consumer_key+"'"
+            var consumer_secret="consumer_secret='"+parse_secret.consumer_secret+"'"
+            var access_token="access_token='"+parse_secret.access_token+"'"
+            var access_token_secret="access_token_secret='"+parse_secret.access_token_secret+"'"
+            console.log(consumer_key+"\n"+consumer_secret+"\n"+access_token+"\n"+access_token_secret)
+            var keydata=consumer_key+"\n"+consumer_secret+"\n"+access_token+"\n"+access_token_secret
         // Write data to file for generating env files
           const fs = require('fs');
 
-          fs.writeFile(".env.aws", secret, function(err) {
+          fs.writeFile(".env.aws", keydata, function(err) {
            if(err) {
              return console.log(err);
                }
