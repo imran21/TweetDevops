@@ -1,0 +1,6 @@
+docker network create --driver=bridge  -o "com.docker.network.bridge.name=AppBridge" --subnet=10.0.1.0/26 TwitNet
+
+
+docker run -ti -d --name mgdb --net TwitNet --ip 10.0.1.5 -p 27017:27017  mongo:latest
+docker run -ti -d --name stream --net TwitNet --ip 10.0.1.6  -p 3000:3000 stream:latest
+docker run -ti -d --name profile --net TwitNet --ip 10.0.1.7  -p 3001:3001 profile:latest

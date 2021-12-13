@@ -3,4 +3,5 @@ RUN mkdir /app
 RUN mkdir /app/data_log
 COPY ./apps /app
 WORKDIR /app
-CMD [ "node", "twit-stream.js" ]
+EXPOSE 3001
+CMD [ "node", "twit-userprofile.js" ]

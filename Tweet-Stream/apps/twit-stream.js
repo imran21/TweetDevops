@@ -188,17 +188,20 @@ try {
                             console.log('User_Profile log Updated!');
                     });
             var options = {
+              protocol:'http:',
               host: process.env.MS_USER_PROFILE_HOST,
               port: process.env.MS_USER_PROFILE_PORT,
               path: '/'+twit_user_id+'/'+twit_user_screen_name
-};
+	       };
 
-                    http.get(options, function(resp){
+                    http.get(options, function(resp, err){
+                     console.log("w1")
                       resp.on('data', function(chunk){
                         //do something with chunk
+                        console.log("w2")
                       });
                     }).on("error", function(e){
-                     // console.log("Got error: " + e.message);
+                      console.log("Got error: " + e.message);
                     });
           }
                       catch(ex)
