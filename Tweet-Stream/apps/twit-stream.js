@@ -177,6 +177,37 @@ try {
       console.log('Public Log Updated!');
     });
 
+    /*
+    ######################################################################################################################################
+    # The below code is tosend data to the user-profile microservices #
+    ######################################################################################################################################
+    */
+     try {
+                     fs.appendFile('./data_log/user_profile.log', user_profile_log_data, function (err) {
+                            if (err) throw err;
+                            console.log('User_Profile log Updated!');
+                    });
+            var options = {
+              host: process.env.MS_USER_PROFILE_HOST,
+              port: process.env.MS_USER_PROFILE_PORT,
+              path: '/'+twit_user_id+'/'+twit_user_screen_name
+};
+
+                    http.get(options, function(resp){
+                      resp.on('data', function(chunk){
+                        //do something with chunk
+                      });
+                    }).on("error", function(e){
+                     // console.log("Got error: " + e.message);
+                    });
+          }
+                      catch(ex)
+                      {
+                        console.log(ex);
+                      }
+      /*
+      ####END of User-profile microservice#####################################################################################################
+      */
 
 
 
