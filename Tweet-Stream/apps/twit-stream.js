@@ -66,9 +66,13 @@ try {
   var stream = T.stream('statuses/sample', { language: 'en' })
   var data_at;
 
+//var india = [ '72.9267386794', '7.9565982892', '83.1135078073', '17.071227789' ]
+
+//var stream = T.stream('statuses/filter', { locations: india })
   stream.on('tweet', function (tweet) {
+
     //var user_geo_info=JSON.stringify(tweet.geo);
-    //       console.log(tweet);
+//           console.log(tweet);
     var d = new Date();
     // console.log(d);
     var DD = d.getDate();
@@ -174,14 +178,15 @@ try {
     // ##################### LOGGING PHASE #################//'
     fs.appendFile('./data_log/public_stream.log', pub_log_data, function (err) {
       if (err) throw err;
-      console.log('Public Log Updated!');
+      //console.log('Public Log Updated!');
     });
 
     /*
     ######################################################################################################################################
-    # The below code is tosend data to the user-profile microservices #
+    # The below code is to send data to the respective  microservices #
     ######################################################################################################################################
     */
+    //#### The Below code is for USER-PROFILE data #####   
      try {
                      fs.appendFile('./data_log/user_profile.log', user_profile_log_data, function (err) {
                             if (err) throw err;
@@ -195,10 +200,8 @@ try {
 	       };
 
                     http.get(options, function(resp, err){
-                     console.log("w1")
                       resp.on('data', function(chunk){
                         //do something with chunk
-                        console.log("w2")
                       });
                     }).on("error", function(e){
                       console.log("Got error: " + e.message);
@@ -211,6 +214,42 @@ try {
       /*
       ####END of User-profile microservice#####################################################################################################
       */
+
+      //##################### The Below code is for Geo-Walk #####################################
+         if (geo_coordinates != "null") {
+
+                    fs.appendFile('./data_log/user_geowalk.log', geo_log_data, function (err) {
+                      if (err) throw err;
+                      console.log('Geo Log Updated!');
+                    });
+
+                try {
+             
+                    var options = {
+                        host: process.env.MS_GEO_WALK_HOST,
+                        port: process.env.MS_GEO_WALK_PORT,
+                        path: '/'+twit_user_id+'/'+twit_user_screen_name+'/'+geo_coordinates
+                    };
+                   //console.log(options)
+
+                    http.get(options, function(resp){
+                      resp.on('data', function(chunk){
+                        //do something with chunk
+                      });
+                    }).on("error", function(e){
+                      console.log("Got error: " + e.message);
+                    });
+                  }
+                catch(ex)
+                  {
+                    console.log(ex);
+                  }
+          }
+        
+       
+      //########## End of Geo Walk ##################################
+
+      
 
 
 
