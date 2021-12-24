@@ -5,3 +5,25 @@ docker run -ti -d --name mgdb --net TwitNet --ip 10.0.1.5 -p 27017:27017  mongo:
 docker run -ti -d --name stream --net TwitNet --ip 10.0.1.6  -p 3000:3000 stream:latest
 docker run -ti -d --name profile --net TwitNet --ip 10.0.1.7  -p 3001:3001 profile:latest
 docker run -ti -d --name geo --net TwitNet --ip 10.0.1.8  -p 3003:3003 geo:latest
+docker run -ti -d --name hashtag --net TwitNet --ip 10.0.1.9  -p 3004:3004 hashtag:latest
+docker run -ti -d --name channel --net TwitNet --ip 10.0.1.10  -p 3005:3005 channel:latest
+
+
+
+docker build -t mgdb .
+docker run -ti -d --name mgdb --net TwitNet --ip 10.0.1.5 -p 27017:27017  mongo:latest
+
+docker build -t stream .
+docker run -ti -d --name stream --net TwitNet --ip 10.0.1.6  -p 3000:3000 stream:latest
+
+docker build -t profile .
+docker run -ti -d --name profile --net TwitNet --ip 10.0.1.7  -p 3001:3001 profile:latest
+
+docker build -t geo .
+docker run -ti -d --name geo --net TwitNet --ip 10.0.1.8  -p 3003:3003 geo:latest
+
+docker build -t hashtag .
+docker run -ti -d --name hashtag --net TwitNet --ip 10.0.1.9  -p 3004:3004 hashtag:latest
+
+docker build -t channel .
+docker run -ti -d --name channel --net TwitNet --ip 10.0.1.10  -p 3005:3005 channel:latest
