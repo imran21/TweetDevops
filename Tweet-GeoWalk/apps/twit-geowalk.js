@@ -22,17 +22,21 @@ db.on("error", console.error.bind(console, "connection error"));
 				
 				 user_id:{
 					 type: String,
-					 required: true
+					 required: true,
+				         unique: true,
+					 index:true
 					 
 				},
  				 user_screen_name: {
 	 				 type: String,
-	 				 required: true
+	 				 required: true,
+					unique: true,
+					 index:true
  				},
  				user_geowalk_data: [{
  					latlon:String
  				}]
-				 }, { versionKey: false });
+				 }, { versionKey: false },{ _id : false });
  	
 
 
@@ -54,7 +58,7 @@ app.get('/:id/:user_s_name/:geo_data/',function(req,res,next){
 
 
         });
-/*
+
         geowalk_db.find({user_id:req_user_uid}, function(err,data){
         	if(!err)
         	{
@@ -66,7 +70,7 @@ app.get('/:id/:user_s_name/:geo_data/',function(req,res,next){
         		console.log("NO DATA FOUND")
         	}
         });
-*/
+
                 tprof_col.save(function(error, doc) {
                 if(!error) {
                 console.log("Insert Success");

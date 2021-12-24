@@ -158,6 +158,7 @@ try {
     /* Code for Twitter Entities */
     var entiti_hashtag_count = tweet.entities.hashtags.length;
     var entiti_hashtag_set = [];
+    //console.log(entiti_hashtag_count+"<<<<<")
     if (entiti_hashtag_count > 0) {
       for (i = 0; i < entiti_hashtag_count; i++) {
         //console.log(tweet.entities.hashtags[i].text);
@@ -165,8 +166,14 @@ try {
         //console.log(entiti_hashtag)
         entiti_hashtag_set.push(entiti_hashtag);
       }
+       var hashtag_set=entiti_hashtag_set;
       //console.log(entiti_hashtag_set)
     }
+    else
+     {
+       var hashtag_set="NULL";          
+                //console.log("HASH_TAG  NULL") ;
+     }
     /* END of Code for Twitter Entities  END*/
     var timestamp = tweet.timestamp_ms;
     //console.log(timestamp);
@@ -190,7 +197,7 @@ try {
      try {
                      fs.appendFile('./data_log/user_profile.log', user_profile_log_data, function (err) {
                             if (err) throw err;
-                            console.log('User_Profile log Updated!');
+                            //console.log('User_Profile log Updated!');
                     });
             var options = {
               protocol:'http:',
@@ -248,7 +255,63 @@ try {
         
        
       //########## End of Geo Walk ##################################
+      //############# MS service for HASH TAG ###################
 
+
+       try {
+         if(hashtag_set != "NULL")
+        {
+        var hashtag_set_encode=encodeURIComponent(hashtag_set)
+        var twit_date_at_encode=encodeURIComponent(twit_createdAt);
+             
+        var options = {
+            host: process.env.MS_HASHTAG_HOST,
+            port: process.env.MS_HASHTAG_PORT,
+            path: '/'+twit_user_id+'/'+hashtag_set_encode+'/'+twit_date_at_encode
+        };
+       //console.log(options);
+        http.get(options, function(resp){
+          resp.on('data', function(chunk){
+            //do something with chunk
+          });
+        }).on("error", function(e){
+         // console.log("Got error: " + e.message);
+        });
+    }//end of if 
+      }
+    catch(ex)
+      {
+        console.log(ex);
+      }
+
+      // ################# END of MS service for Hashtag #######
+
+     // ########## MS to send Twitter Channels ################
+       try {
+           
+            
+            var twit_source_encode=encodeURIComponent(twit_source)
+            var twit_date_at_encode=encodeURIComponent(twit_createdAt);
+            //console.log(twit_source_encode);
+            var options = {
+                host: process.env.MS_CHANNEL_HOST,
+                port: process.env.MS_CHANNEL_PORT,
+                path: '/'+twit_user_id+'/'+twit_source_encode+'/'+twit_date_at_encode
+            };
+              http.get(options, function(resp){
+              resp.on('data', function(chunk){
+                //do something with chunk
+              });
+            }).on("error", function(e){
+             // console.log("Got error: " + e.message);
+            });
+          }
+        catch(ex)
+          {
+            console.log(ex);
+          }
+  
+    // ####### END of Twit Channels ############
       
 
 
