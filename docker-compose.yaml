@@ -1,0 +1,110 @@
+version: '3'
+
+services:
+  stream:
+   build: Tweet-Stream/.
+   container_name: stream
+   ports:
+    - '3000:3000'
+   volumes:
+    - ./data_log:/app/data_log
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.6
+   tty: true
+   
+   depends_on:
+    - twit-network
+    - db
+    - user-profile
+
+  user-profile:
+   build: Tweet-UserProfile/.
+   container_name: profile
+   ports:
+    - '3001:3001'
+   volumes:
+    - ./data_log:/app/data_log
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.7
+   tty: true
+
+   depends_on:
+    - twit-network
+    - db
+ 
+  geo-walk:
+   build: Tweet-GeoWalk/.
+   container_name: geowalk
+   ports:
+    - '3003:3003'
+   volumes:
+    - ./data_log:/app/data_log
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.8
+   tty: true
+
+   depends_on:
+    - db
+    - twit-network
+
+  hashtag:
+   build: Tweet-Hashtag/.
+   container_name: hashtag
+   ports:
+    - '3004:3004'
+   volumes:
+    - ./data_log:/app/data_log
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.9
+   tty: true
+
+   depends_on:
+    - db
+    - twit-network
+ 
+  channel:
+   build: Tweet-Channel/.
+   container_name: channel
+   ports:
+    - '3005:3005'
+   volumes:
+    - ./data_log:/app/data_log
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.10
+   tty: true
+
+   depends_on:
+    - db
+    - twit-network
+
+
+
+
+  db:
+   image: mongo
+   container_name: mgdb
+   restart: always
+   ports:
+    - '27017:27017'
+   volumes:
+    - ./mgdb:/data/db
+   depends_on:
+    - test-netwok
+
+   networks:
+     twit-network:
+       ipv4_address: 10.0.1.5
+
+
+networks:
+  twit-network:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.0.1.0/26
+         gateway: 10.0.1.1
